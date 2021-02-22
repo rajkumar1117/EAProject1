@@ -54,17 +54,17 @@ all_freq = pd.crosstab(index=raw0['hvfhs_license_num'],
 all_freq
 """
 # Frequency Table for Uber by Time of Day (2019)
-uber_freq = pd.crosstab(index=uber['Time_of_Day'], columns="count")
+uber_freq = pd.crosstab(index=uber['hvfhs_license_num'], columns=uber['Time_of_Day'])
 print(uber_freq)
 
 # Frequency Table for Lyft by Time of Day (2019)
-lyft_freq = pd.crosstab(index=lyft['Time_of_Day'], columns="count")
+lyft_freq = pd.crosstab(index=lyft['hvfhs_license_num'], columns=uber['Time_of_Day'])
 print(lyft_freq)
 
 # Frequency Table for Via by Time of Day (2019)
-via_freq = pd.crosstab(index=via['Time_of_Day'], columns="count")
+via_freq = pd.crosstab(index=via['hvfhs_license_num'], columns=uber['Time_of_Day'])
 print(via_freq)
 
 # Frequency Table for Juno by Time of Day (2019)
-juno_freq = pd.crosstab(index=juno['Time_of_Day'], columns="count")
+juno_freq = pd.crosstab(index=juno['hvfhs_license_num'], columns=uber['Time_of_Day'])
 print(juno_freq)
