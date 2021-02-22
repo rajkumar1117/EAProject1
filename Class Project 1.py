@@ -27,41 +27,74 @@ print(raw0['pickup_datetime'].head())
 """
 
 # Create New Column Time of Day (the condition does not work)
+"""
 raw0['Time_of_Day'] = np.where(
     dt.datetime.strptime('00:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime(
         '05:59:59', '%H:%M:%S').time(), 'late night',
     np.where(
         dt.datetime.strptime('06:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime(
             '11:59:59', '%H:%M:%S').time(), 'morning',
-        np.where(dt.datetime.strptime('12:00:00', '%H:%M:%S').time() <= raw0.iloc[0][
-            'pickup_datetime'] <= dt.datetime.strptime('17:59:59', '%H:%M:%S').time(), 'afternoon',
-                 'evening')))
+        np.where(
+            dt.datetime.strptime('12:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime']
+                <= dt.datetime.strptime('17:59:59', '%H:%M:%S').time(), 'afternoon', 'evening')))
+"""
+time_of_day = []
+
+for time in raw0['pickup_datetime']:
+    if dt.datetime.strptime('00:00:00', '%H:%M:%S').time() <= time <= dt.datetime.strptime('05:59:59', '%H:%M:%S').time():
+        time_of_day.append('late night')
+    elif dt.datetime.strptime('06:00:00', '%H:%M:%S').time() <= time <= dt.datetime.strptime('11:59:59', '%H:%M:%S').time():
+        time_of_day.append('morning')
+    elif dt.datetime.strptime('12:00:00', '%H:%M:%S').time() <= time <= dt.datetime.strptime('17:59:59', '%H:%M:%S').time():
+        time_of_day.append('afternoon')
+    elif dt.datetime.strptime('18:00:00', '%H:%M:%S').time() <= time <= dt.datetime.strptime('23:59:59', '%H:%M:%S').time():
+        time_of_day.append('evening')
+    else:
+        time_of_day.append('N/A')
+
+raw0['time_of_day'] = time_of_day
+"""     
+conditions = [
+    (dt.datetime.strptime('00:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime(
+        '05:59:59', '%H:%M:%S').time()),
+    (dt.datetime.strptime('06:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime(
+        '11:59:59', '%H:%M:%S').time()),
+    (dt.datetime.strptime('12:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime(
+        '17:59:59', '%H:%M:%S').time()),
+    (dt.datetime.strptime('18:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime(
+        '02359:59', '%H:%M:%S').time())
+]
+
+values = ['late night', 'morning', 'afternoon', 'evening']
+
+raw0["time_of_day"] = np.select(conditions, values)
+"""
 
 # Split Data by Company
 uber = raw0[raw0['hvfhs_license_num'] == 'HV0003']
 lyft = raw0[raw0['hvfhs_license_num'] == 'HV0005']
 via = raw0[raw0['hvfhs_license_num'] == 'HV0004']
 juno = raw0[raw0['hvfhs_license_num'] == 'HV0002']
-# Frequency Table for All by Time of Day (2019)
-"""
-all_freq = pd.crosstab(index=raw0['hvfhs_license_num'],
-                        columns=raw0['Time_of_Day'],
-                        margins=True)
-all_freq
-"""
 
+# Frequency Table for All by Time of Day (2019)
+all_freq = pd.crosstab(index=raw0['hvfhs_license_num'],
+                       columns=raw0['time_of_day'],
+                       margins=True)
+print(all_freq)
+"""
 # Frequency Table for Uber by Time of Day (2019)
-uber_freq = pd.crosstab(index=uber['hvfhs_license_num'], columns=uber['Time_of_Day'])
+uber_freq = pd.crosstab(index=uber['hvfhs_license_num'], columns=uber['time_of_day'])
 print(uber_freq)
 
 # Frequency Table for Lyft by Time of Day (2019)
-lyft_freq = pd.crosstab(index=lyft['hvfhs_license_num'], columns=uber['Time_of_Day'])
+lyft_freq = pd.crosstab(index=lyft['hvfhs_license_num'], columns=uber['time_of_day'])
 print(lyft_freq)
 
 # Frequency Table for Via by Time of Day (2019)
-via_freq = pd.crosstab(index=via['hvfhs_license_num'], columns=uber['Time_of_Day'])
+via_freq = pd.crosstab(index=via['hvfhs_license_num'], columns=uber['time_of_day'])
 print(via_freq)
 
 # Frequency Table for Juno by Time of Day (2019)
-juno_freq = pd.crosstab(index=juno['hvfhs_license_num'], columns=uber['Time_of_Day'])
+juno_freq = pd.crosstab(index=juno['hvfhs_license_num'], columns=uber['time_of_day'])
 print(juno_freq)
+"""
