@@ -27,10 +27,15 @@ print(raw0['pickup_datetime'].head())
 """
 
 # Create New Column Time of Day (the condition does not work)
-raw0['Time_of_Day'] = np.where(dt.datetime.strptime('00:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime('05:59:59', '%H:%M:%S').time(), 'late night',
-                               np.where(dt.datetime.strptime('06:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime('11:59:59', '%H:%M:%S').time(), 'morning',
-                                        np.where(dt.datetime.strptime('12:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime('17:59:59', '%H:%M:%S').time(), 'afternoon',
-                                                 'evening')))
+raw0['Time_of_Day'] = np.where(
+    dt.datetime.strptime('00:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime(
+        '05:59:59', '%H:%M:%S').time(), 'late night',
+    np.where(
+        dt.datetime.strptime('06:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime'] <= dt.datetime.strptime(
+            '11:59:59', '%H:%M:%S').time(), 'morning',
+        np.where(dt.datetime.strptime('12:00:00', '%H:%M:%S').time() <= raw0.iloc[0][
+            'pickup_datetime'] <= dt.datetime.strptime('17:59:59', '%H:%M:%S').time(), 'afternoon',
+                 'evening')))
 """
 raw0['Time_of_Day'] = np.where(dt.datetime.strptime('06:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime']
                                <= dt.datetime.strptime('11:59:59', '%H:%M:%S').time(),
