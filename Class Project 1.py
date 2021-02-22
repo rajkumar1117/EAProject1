@@ -36,24 +36,12 @@ raw0['Time_of_Day'] = np.where(
         np.where(dt.datetime.strptime('12:00:00', '%H:%M:%S').time() <= raw0.iloc[0][
             'pickup_datetime'] <= dt.datetime.strptime('17:59:59', '%H:%M:%S').time(), 'afternoon',
                  'evening')))
-"""
-raw0['Time_of_Day'] = np.where(dt.datetime.strptime('06:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime']
-                               <= dt.datetime.strptime('11:59:59', '%H:%M:%S').time(),
-                               'morning', 'NaN')
-raw0['Time_of_Day'] = np.where(dt.datetime.strptime('12:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime']
-                               <= dt.datetime.strptime('17:59:59', '%H:%M:%S').time(),
-                               'afternoon', 'NaN')
-raw0['Time_of_Day'] = np.where(dt.datetime.strptime('18:00:00', '%H:%M:%S').time() <= raw0.iloc[0]['pickup_datetime']
-                               <= dt.datetime.strptime('23:59:59', '%H:%M:%S').time(),
-                               'evening', 'NaN')
-"""
 
 # Split Data by Company
 uber = raw0[raw0['hvfhs_license_num'] == 'HV0003']
 lyft = raw0[raw0['hvfhs_license_num'] == 'HV0005']
 via = raw0[raw0['hvfhs_license_num'] == 'HV0004']
 juno = raw0[raw0['hvfhs_license_num'] == 'HV0002']
-print(uber.head())
 # Frequency Table for All by Time of Day (2019)
 """
 all_freq = pd.crosstab(index=raw0['hvfhs_license_num'],
@@ -61,7 +49,7 @@ all_freq = pd.crosstab(index=raw0['hvfhs_license_num'],
                         margins=True)
 all_freq
 """
-"""
+
 # Frequency Table for Uber by Time of Day (2019)
 uber_freq = pd.crosstab(index=uber['hvfhs_license_num'], columns=uber['Time_of_Day'])
 print(uber_freq)
@@ -77,4 +65,3 @@ print(via_freq)
 # Frequency Table for Juno by Time of Day (2019)
 juno_freq = pd.crosstab(index=juno['hvfhs_license_num'], columns=uber['Time_of_Day'])
 print(juno_freq)
-"""
