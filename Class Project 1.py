@@ -17,7 +17,7 @@ combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
 # Export to New CSV
 """combined_csv.to_csv('fhvhv_tripdata_2020.csv', index=False, encoding='utf-8-sig')"""
 
-# Open Datasets & Convert Object to Datetime
+# Open Datasets & Convert Objects to Datetime
 raw0 = pd.read_csv('fhvhv_tripdata_2019.csv')
 raw0['pickup_datetime'] = pd.to_datetime(raw0['pickup_datetime']).dt.time
 raw0['dropoff_datetime'] = pd.to_datetime(raw0['dropoff_datetime']).dt.time
@@ -63,6 +63,10 @@ raw0.to_csv('2019_clean.csv', index=False, encoding='utf-8-sig')
 raw1.to_csv('2020_clean.csv', index=False, encoding='utf-8-sig')
 
 """
+# Use New Datasets (comment out previous code)
+raw0 = pd.read_csv('2019_clean.csv')
+raw1 = pd.read_csv(2020_clean.csv')
+
 # Split Data by Company
 uber0 = raw0[raw0['hvfhs_license_num'] == 'HV0003']
 lyft0 = raw0[raw0['hvfhs_license_num'] == 'HV0005']
@@ -75,15 +79,11 @@ via1 = raw1[raw1['hvfhs_license_num'] == 'HV0004']
 juno1 = raw1[raw1['hvfhs_license_num'] == 'HV0002']
 
 # Frequency Table for All by Time of Day (2019)
-all_freq0 = pd.crosstab(index=raw0['hvfhs_license_num'],
-                       columns=raw0['time_of_day'],
-                       margins=True)
+all_freq0 = pd.crosstab(index=raw0['hvfhs_license_num'], columns=raw0['time_of_day'], margins=True)
 print(all_freq0)
 
 # Frequency Table for All by Time of Day (2020)
-all_freq1 = pd.crosstab(index=raw1['hvfhs_license_num'],
-                       columns=raw1['time_of_day'],
-                       margins=True)
+all_freq1 = pd.crosstab(index=raw1['hvfhs_license_num'], columns=raw1['time_of_day'], margins=True)
 print(all_freq1)
 
 # Frequency Table for Uber by Time of Day (2019)
