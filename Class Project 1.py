@@ -16,7 +16,7 @@ combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
 
 # Export to New CSV
 """combined_csv.to_csv('fhvhv_tripdata_2020.csv', index=False, encoding='utf-8-sig')"""
-
+"""
 # Open Datasets & Convert Objects to Datetime
 raw0 = pd.read_csv('fhvhv_tripdata_2019.csv')
 raw0['pickup_datetime'] = pd.to_datetime(raw0['pickup_datetime']).dt.time
@@ -61,11 +61,10 @@ raw1['time_of_day'] = time_of_day1
 # Save as New CSV Files (Done for Faster Results)
 raw0.to_csv('2019_clean.csv', index=False, encoding='utf-8-sig')
 raw1.to_csv('2020_clean.csv', index=False, encoding='utf-8-sig')
-
 """
 # Use New Datasets (comment out previous code)
 raw0 = pd.read_csv('2019_clean.csv')
-raw1 = pd.read_csv(2020_clean.csv')
+raw1 = pd.read_csv('2020_clean.csv')
 
 # Split Data by Company
 uber0 = raw0[raw0['hvfhs_license_num'] == 'HV0003']
@@ -117,4 +116,4 @@ print(juno_freq0)
 # Frequency Table for Juno by Time of Day (2020)
 juno_freq1 = pd.crosstab(index=juno1['hvfhs_license_num'], columns=juno1['time_of_day'])
 print(juno_freq1)
-"""
+
